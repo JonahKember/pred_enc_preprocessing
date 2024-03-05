@@ -17,26 +17,27 @@ To address this problem, we make use of a data-driven approach (focused on massi
 ## Structure
 ```
 ├── data 
-│   ├── external           <- Data from third party sources.
-│   ├── interim            <- Intermediate data useful during processing.
-│   ├── processed          <- The final, canonical data set used for future analyses.
-│   └── raw                <- The original, immutable data dump. 
+│   ├── external               <- Data from third party sources.
+│   ├── interim                <- Intermediate data useful during processing.
+│   ├── processed              <- The final, canonical data set used for future analyses.
+│   └── raw                    <- The original, immutable data dump. 
 │
-├── results                <- Preprocessing reports.
+├── results                    <- Preprocessing reports.
 │
-├── slurm                  <- Output of jobs submitted to the SLURM scheduler.
-│   ├── output             <- Output of sucessful jobs.
-│   ├── error              <- Output of unsucessful jobs.
+├── slurm                      <- Output of jobs submitted to the SLURM scheduler.
+│   ├── output                 <- Output of sucessful jobs.
+│   ├── error                  <- Output of unsucessful jobs.
 │
-├── src                    <- Source code for use in this project.
-│   ├── data               <- Scripts to download, generate, and clean data.
-│   ├── features           <- Scripts to turn raw data into features for modeling.
-│   └── visualization      <- Scripts to create plots/figures.
+├── src                        <- Source code for use in this project.
+│   ├── preprocessing          <- Module with functions for preprocessing data.
+│   ├── 00_download_data.sh    <- Download raw BIDS data from OpenNeuro.
+│   ├── 01_run_pipeline.py     <- Run the pipeline for each EEG session.
+│   └── pipeline.py            <- Preprocessing he pipeline.
 │
-├── .env                   <- Environment variables.
-├── .gitignore             <- Files to be ignored by Git.
-├── README.md              <- Project overview.
-└── requirements.txt       <- Dependencies ('pip install -r requirements.txt').
+├── .env                       <- Environment variables.
+├── .gitignore                 <- Files to be ignored by Git.
+├── README.md                  <- Project overview.
+└── requirements.txt           <- Dependencies ('pip install -r requirements.txt').
 ```
 Structure adapted from [cookiecutter-data-science](https://drivendata.github.io/cookiecutter-data-science/).
 
