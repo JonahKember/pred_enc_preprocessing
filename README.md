@@ -73,7 +73,7 @@ Structure adapted from [cookiecutter-data-science](https://drivendata.github.io/
 	
 	Each script applies a distinct processing stage (named: 'raw', 'epochs', and 'dataframe') to a single EEG session. SBATCH scripts are written to `/jobs`,and are formatted as: `f'sub-{subject}_ses-{session}_{stage}'`. The output of these jobs is written to `/slurm/output/` if sucessful, and `/slurm/error/` if unsucessful. 
 	
-	The amount of memory and time requested for each job is specified in a dictionary within the dictionary `stage`, found in the config file of the preprocessing module: **`src/preprocessing/config.py`**
+	The amount of memory and time requested for each job is specified in the dictionary `job_params`, found in the config file of the preprocessing module: **`src/preprocessing/config.py`**
 	```python
 	job_params = {
 		'stage':'raw',
