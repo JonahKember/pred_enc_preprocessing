@@ -69,7 +69,7 @@ Structure adapted from [cookiecutter-data-science](https://drivendata.github.io/
 	pip install -r requirements.txt
 	```
 
-3. Download the raw BIDS-formatted data from OpenNeurom as well as miscellaenous external data required for the pipeline:
+3. Run the shell script `00_download_data.sh`, which downloads the raw BIDS-formatted data from OpenNeurom as well as miscellaenous external data required for the pipeline.
 	```shell
 	bash src/00_download_data.sh
 	```
@@ -83,7 +83,7 @@ Structure adapted from [cookiecutter-data-science](https://drivendata.github.io/
 	```
 	This script writes a large set of SBATCH scripts (~1700) and submits them to the scheduler. (if the --create and --run flags are specified, respectively). 
 	
-	Each script applies a distinct processing stage (named: 'raw', 'epochs', and 'dataframe') to a single EEG session. SBATCH scripts are written to `/jobs`,and are formatted as: `f'sub-{subject}_ses-{session}_{stage}'`. The output of these jobs is written to `/slurm/output/` if sucessful, and `/slurm/error/` if unsucessful. 
+	Each script applies a distinct processing stage (named: 'raw', 'epochs', and 'dataframe') to a single EEG session. SBATCH scripts are written to `/jobs`,and are formatted as: `f'sub-{subject}_ses-{session}_{stage}'`. The output of these jobs is written to `/slurm/output/` if sucessful, and `/slurm/error/` if unsucessful. The pipeline is run in three seprate stages to help conserve computational resources, as each stage has different RAM requirements.
 	
 	The amount of memory and time requested for each job is specified in the dictionary `job_params`, found in the config file of the preprocessing module: **`src/preprocessing/config.py`**
 	```python
