@@ -14,7 +14,7 @@ job_params = {
     'hours':00,
     'minutes':15,
     'mem_per_cpu':'2G',
-    'n_jobs':1000
+    'n_jobs':433
 }
 
 # stage = {'stage':'raw','hours':00,'minutes':15,'mem_per_cpu':'16G'},

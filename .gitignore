@@ -61,7 +61,10 @@ target/
 # DotEnv configuration
 .env
 
-jobs
+slurm/output/*
+slurm/error/*
+
+jobs/*
 
 # Database
 *.db
