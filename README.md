@@ -31,7 +31,7 @@ To address this problem, we:
 │
 ├── slurm                      <- Output of jobs submitted to the SLURM scheduler.
 │   ├── output                 <- Sucessful jobs.
-│   ├── error                  <- Unsucessful jobs.
+│   └── error                  <- Unsucessful jobs.
 │
 ├── src                        <- Source code.
 │   ├── preprocessing          <- Module with functions for preprocessing data.
