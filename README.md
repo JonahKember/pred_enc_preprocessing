@@ -47,16 +47,19 @@ To address this problem, we:
 ├── README.md                  <- Project overview.
 └── requirements.txt           <- Dependencies ('pip install -r requirements.txt').
 ```
-Structure adapted from [cookiecutter-data-science](https://drivendata.github.io/cookiecutter-data-science/).
 
 ## Pipeline
 
 ### Set-up.
 
-1. Define environment variables by modifying the `.env` file: \
-	`project_dir:` Project directory. \
-	`account:` Account used to submit SLURM jobs to the scheduler.
+1. Define environment variables by modifying the `.env` file:
+	```shell
+	# Project directory.
+	project_dir=/path
 
+	# Account used to submit SLURM jobs to the scheduler.
+	account=rrg-user
+	```
 
 2. Create a virtual environment with the necessary dependencies:
 	```shell
