@@ -18,5 +18,5 @@ job_params = {
     'hours':00,
     'minutes':15,
     'mem_per_cpu':'10G',
-    'n_jobs':750
+    'n_jobs':1000
 }
