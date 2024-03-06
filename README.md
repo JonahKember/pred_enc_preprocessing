@@ -37,7 +37,7 @@ To address this problem, we:
 |   ├──├── __init__.py         
 |   ├──├── config.py           <- Dictionaries with preprocessing parameters.
 |   ├──├── preprocess.py       <- High-level preprocessing functions.
-|   ├──├── utils.py            <- Low-level functions.
+|   ├──└── utils.py            <- Low-level functions.
 |   |
 │   ├── 00_download_data.sh    <- Download raw BIDS data from OpenNeuro.
 │   ├── 01_run_pipeline.py     <- Run the pipeline for each EEG session.
@@ -82,7 +82,10 @@ To address this problem, we:
 	# Create and run job scripts.
 	python src/01_run_pipeline.py --create --run
 	```
-	This script writes a large set of SBATCH scripts (~2500 for each stage) and submits them to the scheduler. (if the --create and --run flags are specified, respectively). 
+	**Arguments** \
+	`--create`: Writes SBATCH scripts for each EEG session to `/jobs` (note: ~2500 jobs created for each preprocessing stage). \
+	`--run`: Submit N jobs (specified in **job_params**) to the scheduler. SLURM has job limits (i.e., 1000), so this needs to be done in chunks. \
+	`--report`: Create `results/report.csv` with preprocessing information for each session (number of trials rejected, etc.).
 	
 	Each script applies a distinct processing stage (named: 'raw', 'epochs', and 'dataframe') to a single EEG session. SBATCH scripts are written to `/jobs`,and are formatted as: `f'sub-{subject}_ses-{session}_{stage}'`. The output of these jobs is written to `/slurm/output/` if sucessful, and `/slurm/error/` if unsucessful. The pipeline is run in three seprate stages to help conserve computational resources, as each stage has different RAM requirements.
 	
@@ -101,7 +104,7 @@ To address this problem, we:
 	`hours (int):` number of hours to request for job. \
 	`minutes (int):` number of minutes to request for job. \
 	`mem_per_cpu (str):` amount of RAM to request for job. \
-	`n_jobs (int):` number of jobs to submit to the scheduler at once. \
+	`n_jobs (int):` number of jobs to submit to the scheduler at once.
 
 2. The parameters for the preprocessing pipeline are specifed in the python dictionary **params**, found in the config file of the preprocessing module: **`src/preprocessing/config.py`**:
 
@@ -129,9 +132,9 @@ To address this problem, we:
 
 ### How it works
 
-1. The job scripts created through `src/01_run_pipeline.py` run the pipeline (`src/pipeline.py`) with the appropriate arguments specified.
+1. The job scripts created through `src/01_run_pipeline.py` run the pipeline `src/pipeline.py` with the appropriate arguments specified.
 
-2. The `preprocess.py` file found within the preprocessing module is where the bulk of the analyses occurs, and includes a specific function for each preprocessing stage:
+2. The `preprocess.py` file found within the preprocessing module includes a specific function for each preprocessing stage:
 
 	`preprocess_raw(subject, session)` \
 	This cleans the raw EEG and returns an instance of a MNE-python [raw](https://mne.tools/stable/generated/mne.io.Raw.html) object.
@@ -143,4 +146,3 @@ To address this problem, we:
 	This extracts the single trial source-localized time-series for each ROI in the left 'inferior_frontal' and left 'medial_temporal' cortices of the [HCP_MMP1.0](https://www.nature.com/articles/nature18933) atlas. It then writes the ROI time-series (along with single-trial information) and saves it into a custom file (Hierarchical Data Format, Version 5) formatted as `f'{subject}.h5'`.
 
 3. The `utils.py` file within the preprocessing module contains a set of useful low-level functions. 
-
