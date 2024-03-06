@@ -12,13 +12,13 @@ load_dotenv()
 project_dir = os.getenv('project_dir')
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--create', action='store_true')
-parser.add_argument('--run', action='store_true')
+for arg in ['--create','--run','--report']:
+    parser.add_argument(arg, action='store_true')
 args = parser.parse_args()
 
 
 def create_jobs():
-    '''For each session, write an SBATCH script to '/jobs' with the specified preprocessing stage.'''
+    '''For each session, write an SBATCH script to /jobs with the specified preprocessing stage.'''
 
     for subject in utils.get_subject_id('all'):
         for session in utils.get_subject_sessions(subject):
@@ -39,7 +39,7 @@ def create_jobs():
 def run_jobs():
     '''Submit all the jobs currently in /jobs to the scheduler.'''
 
-    jobs = glob(f'{project_dir}/jobs/*{job_params["stage"]}*')
+    jobs = sorted(glob(f'{project_dir}/jobs/*{job_params["stage"]}*'))
 
     for job in jobs[:job_params['n_jobs']]:
         subprocess.Popen(['sbatch', job])
@@ -48,3 +48,4 @@ def run_jobs():
 if __name__ == '__main__':
     if args.create: create_jobs()
     if args.run: run_jobs()
+    if args.report: utils.get_all_reports()

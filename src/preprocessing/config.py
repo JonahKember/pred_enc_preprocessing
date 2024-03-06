@@ -9,14 +9,14 @@ params = {
     'downsample':250
 }
 
+# 'raw': 15 minutes, 16G.
+# 'epochs': 10 minutes, 2G.
+# 'dataframe': 10 minutes, 1G.
+
 job_params = {
-    'stage':'epochs',
+    'stage':'raw',
     'hours':00,
     'minutes':15,
-    'mem_per_cpu':'2G',
-    'n_jobs':433
+    'mem_per_cpu':'10G',
+    'n_jobs':750
 }
-
-# stage = {'stage':'raw','hours':00,'minutes':15,'mem_per_cpu':'16G'},
-# stage = {'stage':'epochs','hours':00,'minutes':15,'mem_per_cpu':'2G'},
-# stage = {'stage':'dataframe','hours':00,'minutes':10,'mem_per_cpu':'4G'}

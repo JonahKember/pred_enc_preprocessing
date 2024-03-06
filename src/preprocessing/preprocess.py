@@ -1,6 +1,7 @@
 import os
 import mne
 import numpy as np
+import pandas as pd
 
 from dotenv import load_dotenv
 from pyprep import NoisyChannels
@@ -12,7 +13,7 @@ from preprocessing.config import params
 
 load_dotenv()
 project_dir = os.getenv('project_dir')
-bids_root = os.getenv('bids_root')
+bids_root = f'{project_dir}/data/raw/ds004395'
 
 
 def preprocess_raw(subject, session):
@@ -56,7 +57,7 @@ def preprocess_raw(subject, session):
     raw.notch_filter(params['notch_filter'])
 
     # Re-reference.
-    raw.set_eeg_reference(ref_channels='average')
+    raw.set_eeg_reference(ref_channels='average', projection=True)
 
     # Remove ocular artifacts (ICA).
     ica = mne.preprocessing.ICA(n_components=.99, max_iter='auto', random_state=0).fit(raw)
@@ -108,8 +109,7 @@ def preprocess_dataframe(subject, sessions):
     rois = utils.get_rois(['Inferior_Frontal','Medial_Temporal'])
 
     # Get MNE labels for HCP-MMP1 ROIs.
-    subjects_dir = f'{project_dir}/data/external/mne_data/MNE-sample-data/subjects'
-    labels = mne.read_labels_from_annot('fsaverage', 'HCPMMP1', 'lh', subjects_dir=subjects_dir)[1::]
+    labels = mne.read_labels_from_annot('fsaverage', 'HCPMMP1', 'lh', subjects_dir=f'{project_dir}/data/external/')[1::]
     label_names = [label.name.replace('_ROI-lh','') for label in labels]
 
     # Contain labels to ROIS.
@@ -141,6 +141,6 @@ def preprocess_dataframe(subject, sessions):
             df_session['area'] = area_2_cortex[label.name.replace('_ROI-lh','')]
             df_session['time_series'] = [xs for xs in time_series]
 
-            df_label = df_label.append(df_session, ignore_index=True)
+            df_label = pd.concat([df_label, df_session], ignore_index=True)
 
-        df_label.to_hdf(f'{subject}.h5', key=label.name.replace('_ROI-lh',''), complevel=9, index=False)
+        df_label.to_hdf(f'{project_dir}/data/datafranes/{subject}.h5', key=label.name.replace('_ROI-lh',''), complevel=9, index=False)

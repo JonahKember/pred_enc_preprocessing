@@ -1,9 +1,15 @@
 # Predict-encoding
+
+<img src='images/time_series.png' alt="Alt Text" width="700"/>
+
 ## Overview 
-Cleaning of the large open-source dataset offered by the [Penn Electrophysiology of Encoding and Retrieval Study](PEERhttps://openneuro.org/datasets/ds004395/versions/2.0.0). In brief, 300+ subjects underwent a series of high-density electroencephalogram (EEG) experiments in which they were visually presented with lists of words and told to recall as many as they could.
+Cleaning of the EEG data availalbe in [Penn Electrophysiology of Encoding and Retrieval Study](https://openneuro.org/datasets/ds004395/versions/2.0.0), a large-scale open dataset. 300+ subjects underwent a series of high-density electroencephalogram (EEG) experiments in which they were visually presented with lists of words and told to recall as many as they could.
 
 ### Background
-Specific patterns of electrical acivity are observed within areas of the left inferior-frontal and left medial-temporal cortices ~0-2500 ms post-stimulus (visually presented words). These electrical currents are important for verbal memory encoding: (1) their time-series can be used to predict whether words will be subsequently recalled, and (2) their experimental manipulation (via closed-loop stimulation) can be used to enhance the probability of subsequent word recall.
+Specific patterns of electrical acivity are observed within areas of the left inferior-frontal and left medial-temporal cortices in the few seconds after the visual presentation of words. These electrical currents are important for verbal memory encoding: (1) their time-series can be used to predict whether words will be subsequently recalled, and (2) their experimental manipulation (via closed-loop stimulation) can be used to enhance the probability of subsequent word recall.
+
+<img src='images/HCP_MMP1.0_rois.png' alt="Alt Text" width="1000"/>
+
 
 ### Problem
 Verbal memory encoding (the ability to recall previously encountered words) decreases considerably in older adults (i.e., aged 60+). **Yet, the mechanisms whose degeneration contributes to these deficits are unknown**.

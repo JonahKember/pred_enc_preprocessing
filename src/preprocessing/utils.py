@@ -12,8 +12,8 @@ from preprocessing.config import params
 
 load_dotenv()
 project_dir = os.getenv('project_dir')
-bids_root = os.getenv('bids_root')
 account = os.getenv('account')
+bids_root = f'{project_dir}/data/raw/ds004395'
 
 def get_subject_id(subject_idx):
     '''Return subject ID from index, or all subject IDs if subject_idx='all'.'''
@@ -86,7 +86,7 @@ def inspect_data(subject, session):
             return is_clean
 
     if os.path.exists(f'{eeg_path}.bdf'):
-        try: raw = mne.io.read_raw_edf(f'{eeg_path}.bdf')
+        try: raw = mne.io.read_raw_bdf(f'{eeg_path}.bdf')
         except: 
             is_clean = False
             return is_clean
@@ -118,10 +118,10 @@ def inspect_data(subject, session):
     return is_clean
 
 
-def get_subject_sessions(subject):
+def get_subject_sessions(subject, overwrite=False):
 
     save_path = f'{project_dir}/data/interim/clean_sessions/{subject}.csv'
-    if os.path.exists(save_path):
+    if not overwrite and os.path.exists(save_path):
         df = pd.read_csv(save_path)
     else:
         session_dirs = [entry for entry in os.listdir(f'{bids_root}/sub-{subject}') if 'ses' in entry]
@@ -197,6 +197,34 @@ def get_report(subject, session):
     report['N_trials_forgotten_clean'] = sum(epochs.events[:,2] == epochs.event_id['WORD_F'])
 
     return report
+
+
+def get_all_reports():
+    '''Write /results/report.csv with information about N trials for each session.'''
+
+    df = pd.DataFrame(
+        columns=[
+        'subject',
+        'session',
+        'N_trials_remembered_raw',
+        'N_trials_forgotten_raw',
+        'N_trials_remembered_clean',
+        'N_trials_forgotten_clean'
+        ]
+    )
+
+    for subject in subjects:
+        for session in utils.get_subject_sessions(subject):
+            try:
+                report = utils.get_report(subject, session)
+                df_session = pd.DataFrame.from_dict(report, orient='index').T
+                df_session['subject'] = subject
+                df_session['session'] = session
+                df = pd.concat([df, df_session])
+            except:
+                continue
+
+    df.to_csv(f'{project_dir}/results/report.csv', index=False)
 
 
 def get_channels(manufacturer):
@@ -358,8 +386,8 @@ def create_inverse_model():
         ('BioSemi','biosemi128')
     ]
 
-    src = f'{project_dir}/data/external/mne_data/MNE-fsaverage-data/fsaverage/bem/fsaverage-ico-5-src.fif'
-    bem = f'{project_dir}/data/external/mne_data/MNE-fsaverage-data/fsaverage/bem/fsaverage-5120-5120-5120-bem-sol.fif'
+    src = f'{project_dir}/data/external/fsaverage/bem/fsaverage-ico-5-src.fif'
+    bem = f'{project_dir}/data/external/fsaverage/bem/fsaverage-5120-5120-5120-bem-sol.fif'
 
     for manufacturer, montage in cap:
 
@@ -375,8 +403,6 @@ def create_inverse_model():
         )
 
         info.set_montage(mne.channels.make_standard_montage(montage))
-        info['lowpass'] = params['l_freq_filter']
-        info['highpass'] = params['h_freq_filter']
 
         # Create and save inverse model.
         cov = mne.make_ad_hoc_cov(info)
