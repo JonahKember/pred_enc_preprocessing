@@ -39,7 +39,7 @@ To address this problem, we:
 │   ├──├── config.py           <- Dictionaries with preprocessing parameters.
 │   ├──├── preprocess.py       <- High-level preprocessing functions.
 │   ├──└── utils.py            <- Low-level functions.
-│   |
+│   │
 │   ├── 00_download_data.sh    <- Download raw BIDS data from OpenNeuro.
 │   ├── 01_run_pipeline.py     <- Run the pipeline for each EEG session.
 │   └── pipeline.py            <- Preprocessing pipeline.
