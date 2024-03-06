@@ -12,11 +12,11 @@ Specific patterns of electrical acivity are observed within areas of the left in
 
 
 ### Problem
-Verbal memory encoding (the ability to recall previously encountered words) decreases considerably in older adults (i.e., aged 60+). **Yet, the mechanisms whose degeneration contributes to these deficits are unknown**.
+Verbal memory encoding (the ability to recall previously encountered words) decreases considerably in older adults (i.e., aged 60+). How exactly the mechanisms associated with verbal memory encoding degenerate in older adults is unknown.
 
 ### Solution
 To address this problem, we make use of a data-driven approach (focused on massive feature extraction) and theory-driven approach (focused on dynamic shifts in the periodic and aperiodic components of the power spectral density) to:
-1. Identify features of the electrical currents generated in left inferior-frontal and medial-temporal cortices that are predictive of verbal memory encoding (discriminate subsequently remembered from forgotten words).
+1. Identify features of the electrical currents generated in left inferior-frontal and medial-temporal cortices that are predictive of verbal memory encoding (i.e., discriminate subsequently remembered from forgotten words).
 2. Test whether these features reliably differ in older adults (aged 60+).
 
 
@@ -64,7 +64,7 @@ Structure adapted from [cookiecutter-data-science](https://drivendata.github.io/
 	pip install -r requirements.txt
 	```
 
-3. Download the raw BIDS-formatted data from OpenNeuro:
+3. Download the raw BIDS-formatted data from OpenNeurom as well as miscellaenous external data required for the pipeline:
 	```shell
 	bash src/00_download_data.sh
 	```
@@ -121,9 +121,11 @@ Structure adapted from [cookiecutter-data-science](https://drivendata.github.io/
 	`baseline (float, float):` minimum and maximum time for baseline correction (seconds). \
 	`downsample (int):` rate for resampling (Hz).
 
-2. The job scripts created through `src/01_run_pipeline.py` run the `src/pipeline.py` script with the appropriate arguments specified.
+### How it works
 
-3. The `preprocess.py` file found within the preprocessing module is where the bulk of the analyses occurs, and includes a specific function for each preprocessing stage:
+1. The job scripts created through `src/01_run_pipeline.py` run the pipeline (`src/pipeline.py`) with the appropriate arguments specified.
+
+2. The `preprocess.py` file found within the preprocessing module is where the bulk of the analyses occurs, and includes a specific function for each preprocessing stage:
 
 	`preprocess_raw(subject, session)` \
 	This cleans the raw EEG and returns an instance of a MNE-python [raw](https://mne.tools/stable/generated/mne.io.Raw.html) object.
@@ -134,5 +136,5 @@ Structure adapted from [cookiecutter-data-science](https://drivendata.github.io/
 	`preprocess_dataframe(subject, session)` \
 	This extracts the single trial source-localized time-series for each ROI in the left 'inferior_fronta' and left 'medial_temporal' cortices of the [HCP_MMP1.0](https://www.nature.com/articles/nature18933) atlas, and writes the ROI time-series (along with extensive trial information) and saves it into a custom Hierarchical Data Format (Version 5) file (formatted as `f'{subject}.h5'`).
 
+3. The `utils.py` file within the preprocessing module contains a set of useful low-level functions. 
 
-4. The `utils.py` file within the preprocessing module contains a set of useful low-level functions. 
