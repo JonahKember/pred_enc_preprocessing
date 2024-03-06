@@ -3,7 +3,7 @@
 <img src='images/time_series.png' alt="Alt Text" width="700"/>
 
 ## Overview 
-Cleaning of the EEG data availalbe in [Penn Electrophysiology of Encoding and Retrieval Study](https://openneuro.org/datasets/ds004395/versions/2.0.0), a large-scale open dataset. 300+ subjects underwent a series of high-density electroencephalogram (EEG) experiments in which they were visually presented with lists of words and told to recall as many as they could.
+Preprocessing of the high-density electroencephalogram (EEG) data from the [Penn Electrophysiology of Encoding and Retrieval Study](https://openneuro.org/datasets/ds004395/versions/2.0.0), a large-scale open dataset (7,000+ 90 minute sessions across 300+ subjects) focused on verbal memory encoding.
 
 ### Background
 Specific patterns of electrical acivity are observed within areas of the left inferior-frontal and left medial-temporal cortices in the few seconds after the visual presentation of words. These electrical currents are important for verbal memory encoding: (1) their time-series can be used to predict whether words will be subsequently recalled, and (2) their experimental manipulation (via closed-loop stimulation) can be used to enhance the probability of subsequent word recall.
