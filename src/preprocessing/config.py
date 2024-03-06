@@ -16,7 +16,7 @@ params = {
 job_params = {
     'stage':'raw',
     'hours':00,
-    'minutes':15,
+    'minutes':18,
     'mem_per_cpu':'16G',
-    'n_jobs':263
+    'n_jobs':221
 }
