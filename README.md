@@ -12,7 +12,7 @@ Specific patterns of electrical acivity are observed within areas of the left in
 
 
 ### Problem
-Verbal memory encoding (the ability to recall previously encountered words) decreases considerably in older adults (i.e., aged 60+). How exactly the mechanisms associated with verbal memory encoding degenerate in older adults is unknown.
+Verbal memory encoding (the ability to recall previously encountered words) decreases considerably in older adults (i.e., aged 60+). It is unclear how degeneration of the neural mechanisms underlying verbal memory encoding contribute to these deficits.
 
 ### Solution
 To address this problem, we make use of a data-driven approach (focused on massive feature extraction) and theory-driven approach (focused on dynamic shifts in the periodic and aperiodic components of the power spectral density) to:
