@@ -12,11 +12,11 @@ Specific patterns of electrical acivity are observed within areas of the left in
 
 
 ### Problem
-Verbal memory encoding (the ability to recall previously encountered words) decreases considerably in older adults (i.e., aged 60+). It is unclear how degeneration of the neural mechanisms underlying verbal memory encoding contribute to these deficits.
+Verbal memory (the ability to recall previously encountered words) decreases considerably in older adults (i.e., aged 60+). It is unclear how degeneration of the neural mechanisms which underly verbal memory encoding contribute to these deficits.
 
 ### Solution
-To address this problem, we make use of a data-driven approach (focused on massive feature extraction) and theory-driven approach (focused on dynamic shifts in the periodic and aperiodic components of the power spectral density) to:
-1. Identify features of the electrical currents generated in left inferior-frontal and medial-temporal cortices that are predictive of verbal memory encoding (i.e., discriminate subsequently remembered from forgotten words).
+To address this problem, we:
+1. Identify features of the electrical currents generated in left inferior-frontal and medial-temporal cortices that are predictive of verbal memory encoding (i.e., discriminate subsequently remembered from forgotten words) using both a data-driven approach (focused on massive feature extraction) and theory-driven approach (focused on dynamic shifts in the periodic and aperiodic components of the power spectral density).
 2. Test whether these features reliably differ in older adults (aged 60+).
 
 
@@ -26,19 +26,24 @@ To address this problem, we make use of a data-driven approach (focused on massi
 │   ├── external               <- Data from third party sources.
 │   ├── interim                <- Intermediate data useful during processing.
 │   ├── processed              <- The final, canonical data set used for future analyses.
-│   └── raw                    <- The original, immutable data dump. 
+│   └── raw                    <- Raw BIDS-formatted data from OpenNeuro. 
 │
 ├── results                    <- Preprocessing reports.
 │
 ├── slurm                      <- Output of jobs submitted to the SLURM scheduler.
-│   ├── output                 <- Output of sucessful jobs.
-│   ├── error                  <- Output of unsucessful jobs.
+│   ├── output                 <- Sucessful jobs.
+│   ├── error                  <- Unsucessful jobs.
 │
-├── src                        <- Source code for use in this project.
+├── src                        <- Source code.
 │   ├── preprocessing          <- Module with functions for preprocessing data.
+|   ├──├── __init__.py         
+|   ├──├── config.py           <- Dictionaries with preprocessing parameters.
+|   ├──├── preprocess.py       <- High-level preprocessing functions.
+|   ├──├── utils.py            <- Low-level functions.
+|   |
 │   ├── 00_download_data.sh    <- Download raw BIDS data from OpenNeuro.
 │   ├── 01_run_pipeline.py     <- Run the pipeline for each EEG session.
-│   └── pipeline.py            <- Preprocessing he pipeline.
+│   └── pipeline.py            <- Preprocessing pipeline.
 │
 ├── .env                       <- Environment variables.
 ├── .gitignore                 <- Files to be ignored by Git.
