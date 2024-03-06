@@ -21,9 +21,10 @@ To address this problem, we:
 ## Structure
 ```
 ├── data 
-│   ├── external               <- Data from third party sources.
-│   ├── interim                <- Intermediate data useful during processing.
-│   ├── processed              <- The final, canonical data set used for future analyses.
+│   ├── dataframes             <- Dataframes (HDF-5 files) containing single-trial ROI time-series and trial info.
+│   ├── external               <- Third-party data required for processing.
+│   ├── interim                <- Intermediate data created during processing.
+│   ├── processed              <- Cleaned *-raw.fif and *-epo.fif data for each EEG session (MNE-python Raw and Epochs objects).
 │   └── raw                    <- Raw BIDS-formatted data from OpenNeuro. 
 │
 ├── results                    <- Preprocessing reports.
