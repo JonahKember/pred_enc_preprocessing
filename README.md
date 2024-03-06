@@ -1,12 +1,12 @@
 # Predict-encoding
 
-<img src='project.png' alt="Alt Text" width="700"/>
+<img src='README.png' alt="Alt Text" width="700"/>
 
 ## Overview 
 Preprocessing of the high-density electroencephalogram (EEG) data from the [Penn Electrophysiology of Encoding and Retrieval Study](https://openneuro.org/datasets/ds004395/versions/2.0.0), a large-scale open dataset (7,000+ 90 minute sessions across 300+ subjects) focused on verbal memory encoding.
 
 ### Background
-Specific patterns of electrical acivity are observed within areas of the left inferior-frontal and left medial-temporal cortices in the few seconds after the visual presentation of words. These electrical currents are important for verbal memory encoding: (1) their time-series can be used to predict whether words will be subsequently recalled, and (2) their experimental manipulation (via closed-loop stimulation) can be used to enhance the probability of subsequent word recall.
+Specific patterns of electrical acivity are observed within areas of the left inferior-frontal and left medial-temporal cortices in the few seconds after the visual presentation of words. These electrical currents promote verbal memory encoding: (1) their time-series can be used to predict whether words will be subsequently recalled, and (2) their experimental manipulation (via closed-loop stimulation) can be used to enhance the probability of subsequent word recall.
 
 ### Problem
 Verbal memory (the ability to recall previously encountered words) decreases considerably in older adults (i.e., aged 60+). It is unclear how degeneration of the neural mechanisms which underly verbal memory encoding contribute to these deficits.
@@ -139,7 +139,7 @@ To address this problem, we:
 	This epochs the raw data and returns an instance of a MNE-python [epochs](https://mne.tools/stable/generated/mne.Epochs.html) object.
 
 	`preprocess_dataframe(subject, session)` \
-	This extracts the single trial source-localized time-series for each ROI in the left 'inferior_fronta' and left 'medial_temporal' cortices of the [HCP_MMP1.0](https://www.nature.com/articles/nature18933) atlas, and writes the ROI time-series (along with extensive trial information) and saves it into a custom Hierarchical Data Format (Version 5) file (formatted as `f'{subject}.h5'`).
+	This extracts the single trial source-localized time-series for each ROI in the left 'inferior_frontal' and left 'medial_temporal' cortices of the [HCP_MMP1.0](https://www.nature.com/articles/nature18933) atlas. It then writes the ROI time-series (along with single-trial information) and saves it into a custom file (Hierarchical Data Format, Version 5) formatted as `f'{subject}.h5'`.
 
 3. The `utils.py` file within the preprocessing module contains a set of useful low-level functions. 
 

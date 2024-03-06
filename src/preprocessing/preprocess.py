@@ -37,7 +37,7 @@ def preprocess_raw(subject, session):
 
     # Drop neck/chin channels.
     bad_channels = utils.get_bad_channels(manufacturer=manufacturer)
-    raw.drop_channels(bad_channels)
+    raw.drop_channels(bad_channels, on_missing='warn')
     raw.set_montage(montage, on_missing='warn')
 
     # Donwsample.

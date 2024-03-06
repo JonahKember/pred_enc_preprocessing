@@ -202,6 +202,7 @@ def get_report(subject, session):
 def get_all_reports():
     '''Write /results/report.csv with information about N trials for each session.'''
 
+    subjects = get_subject_id('all')
     df = pd.DataFrame(
         columns=[
         'subject',
@@ -214,9 +215,9 @@ def get_all_reports():
     )
 
     for subject in subjects:
-        for session in utils.get_subject_sessions(subject):
+        for session in get_subject_sessions(subject):
             try:
-                report = utils.get_report(subject, session)
+                report = get_report(subject, session)
                 df_session = pd.DataFrame.from_dict(report, orient='index').T
                 df_session['subject'] = subject
                 df_session['session'] = session
