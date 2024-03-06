@@ -1,3 +1,4 @@
+# Specify preprocessing parameters.
 params = {
     'overwrite':False,
     'h_freq_filter':90,
@@ -9,14 +10,13 @@ params = {
     'downsample':250
 }
 
-# 'raw': 15 minutes, 16G.
-# 'epochs': 10 minutes, 2G.
-# 'dataframe': 10 minutes, 1G.
-
+# Specify parameters for creating/running SBATCH jobs.
 job_params = {
-    'stage':'raw',
+    'stage':'epochs',
     'hours':00,
-    'minutes':18,
-    'mem_per_cpu':'16G',
-    'n_jobs':221
+    'minutes':10,
+    'mem_per_cpu':'2G',
+    'n_jobs':1000
 }
+
+# Note 'raw': (15 min, 16G), 'epochs': (10 min, 2G), 'dataframe': (10 min, 1G).
