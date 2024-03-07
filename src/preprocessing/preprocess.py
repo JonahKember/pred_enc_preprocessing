@@ -100,15 +100,19 @@ def preprocess_epochs(subject, session):
     epochs.save(f'{save_path}/sub-{subject}_ses-{session}_task-ltpFR-epo.fif', overwrite=True)
 
 
-def preprocess_dataframe(subject, sessions):
-    '''Extract single-epoch ROI time-series for each session, store in a dataframe, and write to Hierarchical Data Format (Version 5).'''
+def preprocess_dataframe(subject, session):
+    '''Extract single-trial time-series for each label in HCP-MMPv1, store in a dataframe with event info, and write to a compressed .csv file.'''
 
     # Set-up.
+    save_path = f'{project_dir}/data/dataframes/{subject}.csv'
     utils.create_inverse_model()
-    area_2_cortex = utils.get_area_2_cortex()
     rois = utils.get_rois(['Inferior_Frontal','Medial_Temporal'])
 
-    # Get MNE labels for HCP-MMP1 ROIs.
+    manufacturer = utils.get_cap_manufacturer(subject, session)
+    epochs = mne.read_epochs(f'{project_dir}/data/processed/sub-{subject}/sub-{subject}_ses-{session}_task-ltpFR-epo.fif', verbose=0)
+    inverse = mne.minimum_norm.read_inverse_operator(f'{project_dir}/data/processed/{manufacturer}-inv.fif', verbose=0)
+
+    # Get MNE labels for HCP-MMP1 labels.
     labels = mne.read_labels_from_annot('fsaverage', 'HCPMMP1', 'lh', subjects_dir=f'{project_dir}/data/external/')[1::]
     label_names = [label.name.replace('_ROI-lh','') for label in labels]
 
@@ -116,31 +120,24 @@ def preprocess_dataframe(subject, sessions):
     indices = np.where([label in rois for label in label_names])[0]
     labels = [labels[i] for i in indices]
 
+    # Get events.
+    df = utils.get_cleaned_events_df(subject, session, epochs)
+
     for label in labels:
 
-        # Initialize dataframe.
-        df_label = utils.get_cleaned_events_df(subject=None, session=None, epochs=None, initial=True)
+        # Apply inverse model.
+        stcs = mne.minimum_norm.apply_inverse_epochs(epochs, inverse, label=label, method='MNE', pick_ori='normal', lambda2=.1, verbose=0)
 
-        for session in sessions:
+        # Extract 1st PC within label (time_series).
+        time_series = [stc.extract_label_time_course(label, src=inverse['src'], mode='pca_flip', verbose=0) for stc in stcs]
+        time_series = np.concatenate(time_series)
 
-            epochs = mne.read_epochs(f'{project_dir}/data/processed/sub-{subject}/sub-{subject}_ses-{session}_task-ltpFR-epo.fif', verbose=0)
-            manufacturer = utils.get_cap_manufacturer(subject, session)
-            inverse = mne.minimum_norm.read_inverse_operator(f'{project_dir}/data/processed/{manufacturer}-inv.fif', verbose=0)
+        # Convert units of time_series.
+        time_series = utils.get_current_density(time_series)
 
-            # Extract 1st PC within label (time_series).
-            stcs = mne.minimum_norm.apply_inverse_epochs(epochs, inverse, label=label, method='MNE', pick_ori='normal', lambda2=.1, verbose=0)
-            time_series = [stc.extract_label_time_course(label, src=inverse['src'], mode='pca_flip', verbose=0) for stc in stcs]
-            time_series = np.concatenate(time_series)
+        # Add ROI time-series to dataframe.
+        df[f"{label.name.replace('_ROI-lh','')}"] = [list(xs) for xs in time_series]
 
-            # Convert units of time_series.
-            time_series = utils.get_current_density(time_series)
+    header = False if os.path.exists(save_path) else True
+    df.to_csv(save_path, index=False, mode='a', header=header)
 
-            # Add to dataframe.
-            df_session = utils.get_cleaned_events_df(subject, session, epochs)
-            df_session['roi'] = label.name.replace('_ROI-lh','')
-            df_session['area'] = area_2_cortex[label.name.replace('_ROI-lh','')]
-            df_session['time_series'] = [xs for xs in time_series]
-
-            df_label = pd.concat([df_label, df_session], ignore_index=True)
-
-        df_label.to_hdf(f'{project_dir}/data/dataframes/{subject}.h5', key=label.name.replace('_ROI-lh',''), complevel=9, index=False)

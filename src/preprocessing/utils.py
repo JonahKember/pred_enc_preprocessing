@@ -310,7 +310,7 @@ def get_cleaned_events_df(subject, session, epochs, initial=False):
             'subject',
             'experiment',
             'session',
-            'trial',
+            'block',
             'task',
             'response',
             'condition',
@@ -319,10 +319,7 @@ def get_cleaned_events_df(subject, session, epochs, initial=False):
             'word',
             'case',
             'font',
-            'color',
-            'roi',
-            'area',
-            'time_series'
+            'color'
         ]
 
     if initial:
@@ -345,7 +342,8 @@ def get_cleaned_events_df(subject, session, epochs, initial=False):
     events_df = events_df.rename(columns={
         'item_name':'word',
         'trial_type':'condition',
-        'resp':'response'
+        'resp':'response',
+        'trial':'block'
     })
 
     # Add date, manufacturer, roi, area, and time_series columns.
@@ -373,8 +371,10 @@ def get_cleaned_events_df(subject, session, epochs, initial=False):
     events_df['response'] = events_df['response'].replace({0:'small/nonliving',1:'big/living',-1:'control'})
     events_df['task'] = events_df['task'].replace({0:'size',1:'animacy',-1:'control'})
 
-    # Change datatype of trial column.
-    events_df['trial'] = events_df['trial'].astype(int)
+    # Change datatypes to be easilty written/read.
+    events_df['block'] = events_df['block'].astype(int)
+    events_df.color = [list(rgb) for rgb in events_df.color]
+    events_df.response = [str(resp) for resp in events_df.response]
 
     return events_df
 
