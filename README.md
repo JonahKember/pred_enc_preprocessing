@@ -7,13 +7,13 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 ## Structure
 ```
 ├── data 
-│   ├── dataframes             <- Dataframes (HDF-5 files) with single-trial ROI time-series and accmompanying info.
+│   ├── dataframes             <- Dataframes (HDF-5 files) with single-trial info and ROI time-series.
 │   ├── external               <- Third-party data required for processing.
 │   ├── interim                <- Intermediate data created during processing.
-│   ├── processed              <- Cleaned *-raw.fif and *-epo.fif data for each EEG session (MNE-python Raw and Epochs objects).
+│   ├── processed              <- Cleaned *-raw.fif and *-epo.fif instances for each EEG session (MNE-python Raw and Epochs objects).
 │   └── raw                    <- Raw BIDS-formatted data from OpenNeuro.
 │
-├── results                    <- Preprocessing reports.
+├── results                    <- Preprocessing report.
 │
 ├── slurm                      <- Output of jobs submitted to the SLURM scheduler.
 │   ├── output                 <- Sucessful jobs.
@@ -38,9 +38,15 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 
 ## Pipeline
 
+This pipeline is set up to run on computer clusters scheduled with [slurm](https://slurm.schedmd.com/overview.html).
+
 ### Set-up.
 
-1. Define environment variables by modifying the `.env` file:
+1. Initialize the project.
+	```shell
+	git clone https://github.com/JonahKember/pred_enc_preprocessing
+	```
+2. Create a `.env` file and define environment variables.
 	```shell
 	# Project directory.
 	project_dir=/path
@@ -48,8 +54,7 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 	# Account used to submit SLURM jobs to the scheduler.
 	account=rrg-user
 	```
-
-2. Create a virtual environment with the necessary dependencies:
+3. Create a virtual environment with the necessary dependencies.
 	```shell
 	pip install virtualenv
 	virtualenv venv
@@ -57,7 +62,7 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 	pip install -r requirements.txt
 	```
 
-3. Run the shell script `00_download_data.sh`, which downloads the raw BIDS-formatted data from OpenNeuro and third-party data required for the pipeline:
+4. Run the shell script `00_download_data.sh`, which downloads the raw BIDS-formatted data from OpenNeuro and third-party data required for the pipeline:
 	```shell
 	bash src/00_download_data.sh
 	```

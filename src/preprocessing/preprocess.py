@@ -143,4 +143,4 @@ def preprocess_dataframe(subject, sessions):
 
             df_label = pd.concat([df_label, df_session], ignore_index=True)
 
-        df_label.to_hdf(f'{project_dir}/data/datafranes/{subject}.h5', key=label.name.replace('_ROI-lh',''), complevel=9, index=False)
+        df_label.to_hdf(f'{project_dir}/data/dataframes/{subject}.h5', key=label.name.replace('_ROI-lh',''), complevel=9, index=False)

@@ -409,7 +409,7 @@ def create_inverse_model():
         cov = mne.make_ad_hoc_cov(info)
         fwd = mne.make_forward_solution(info, trans='fsaverage', src=src, bem=bem, eeg=True, mindist=5.0, verbose=0)
         inverse = mne.minimum_norm.make_inverse_operator(info, forward=fwd, noise_cov=cov, loose=0.2, depth=3.5, verbose=0)
-        mne.minimum_norm.write_inverse_operator(save_file, inverse)
+        mne.minimum_norm.write_inverse_operator(save_file, inverse, overwrite=True)
 
 
 def create_sbatch(subject, session, stage, hours, minutes, mem_per_cpu):
