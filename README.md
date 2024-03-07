@@ -46,7 +46,7 @@ This pipeline is set up to run on computer clusters scheduled with [slurm](https
 	```shell
 	git clone https://github.com/JonahKember/pred_enc_preprocessing
 	```
-2. Create a `.env` file and define environment variables.
+2. Create a `.env` file in the project directory and define environment variables.
 	```shell
 	# Project directory.
 	project_dir=/path
