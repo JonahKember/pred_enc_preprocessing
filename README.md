@@ -57,7 +57,7 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 	pip install -r requirements.txt
 	```
 
-3. Run the shell script `00_download_data.sh`, which downloads the raw BIDS-formatted data from OpenNeuro as well as miscellaneous external data required for the pipeline.
+3. Run the shell script `00_download_data.sh`, which downloads the raw BIDS-formatted data from OpenNeuro and third-party data required for the pipeline:
 	```shell
 	bash src/00_download_data.sh
 	```
@@ -71,17 +71,10 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 	```
 	**Arguments** \
 	`--create`: Write SBATCH scripts for each EEG session to `/jobs`. \
-	`--run`: Submit *N* jobs (*N* specified in **job_params**) to the scheduler. \
-	`--report`: Create `results/report.csv` with preprocessing information for each session.
-
+	`--run`: Submit *N* jobs (specified in **job_params**, see below) to the scheduler. \
+	`--report`: Write a report with preprocessing information for each session.
 	
-	- Each script applies a distinct processing stage (named: 'raw', 'epochs', and 'dataframe') to a single EEG session.
-	- SBATCH scripts are written to `/jobs`,and are formatted as: `f'sub-{subject}_ses-{session}_{stage}'`.
-	- Job outputs are written to `/slurm/output/` if sucessful, and `/slurm/error/` if unsucessful.
-	- The pipeline is run in three separate stages to help conserve computational resources, as each stage has different RAM requirements.
-	- ~2500 jobs are created for each preprocessing stage. SLURM has job limits (i.e., 1000), so this needs to be done in chunks.
-	
-	The amount of memory and time requested for each job is specified in the dictionary `job_params`, found in the config file of the preprocessing module: **`src/preprocessing/config.py`**
+	The amount of memory and time requested for each job is specified in the dictionary **job_params**, found in the config file of the preprocessing module: **`src/preprocessing/config.py`**
 	```python
 	job_params = {
 		'stage':'raw',
@@ -90,13 +83,19 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 		'mem_per_cpu':'16G',
 		'n_jobs':500
 	}
-	```
+	```	
+	- Each job applies a distinct processing stage ('raw', 'epochs', and 'dataframe') to a single EEG session.
+	- SBATCH scripts are written to `/jobs`,and are formatted as: `f'sub-{subject}_ses-{session}_{stage}'`.
+	- Job outputs are written to `/slurm/output/` if sucessful, and `/slurm/error/` if unsucessful.
+	- The pipeline is run in three separate stages to help conserve computational resources, as each stage has different RAM requirements.
+	- ~2,500 jobs are created for each preprocessing stage. SLURM has job limits (i.e., 1,000), so this needs to be done in chunks.
+
 	**Parameters** \
 	`stage (str):` preprocessing stage to run (one of: 'raw', 'epochs', 'dataframe'). \
 	`hours (int):` number of hours to request for job. \
 	`minutes (int):` number of minutes to request for job. \
 	`mem_per_cpu (str):` amount of RAM to request for job. \
-	`n_jobs (int):` number of jobs to submit to the scheduler at once.
+	`n_jobs (int):` number of jobs to submit to the scheduler at once (`-1`: run all jobs).
 
 2. The parameters for the preprocessing pipeline are specifed in the python dictionary **params**, found in the config file of the preprocessing module: **`src/preprocessing/config.py`**:
 
@@ -126,7 +125,7 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 
 1. The job scripts created through `src/01_run_pipeline.py` run the pipeline `src/pipeline.py` with the appropriate arguments specified.
 
-2. The `preprocess.py` file found within the preprocessing module includes a specific function for each preprocessing stage:
+2. The `preprocess.py` file found within the preprocessing module includes a specific high-level function for each preprocessing stage:
 
 	`preprocess_raw(subject, session)` \
 	This cleans the raw EEG and returns an instance of a MNE-python [raw](https://mne.tools/stable/generated/mne.io.Raw.html) object.
@@ -135,7 +134,7 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 	This epochs the raw data and returns an instance of a MNE-python [epochs](https://mne.tools/stable/generated/mne.Epochs.html) object.
 
 	`preprocess_dataframe(subject, session)` \
-	This extracts the single trial source-localized time-series for each ROI in the left 'inferior_frontal' and left 'medial_temporal' cortices of the [HCP_MMP1.0](https://www.nature.com/articles/nature18933) atlas. It then writes the ROI time-series (along with single-trial information) and saves it into a custom file (Hierarchical Data Format, Version 5) formatted as `f'{subject}.h5'`.
+	This extracts the single trial source-localized time-series for each ROI in the left 'inferior_frontal' and left 'medial_temporal' cortices of the [HCP_MMP1.0](https://www.nature.com/articles/nature18933) atlas. It then writes the ROI time-series (along with single-trial information) to a custom file (Hierarchical Data Format, Version 5) to `/data/dataframes/f'{subject}.h5'`.
 
 3. The `utils.py` file within the preprocessing module contains a set of useful low-level functions. 
 
