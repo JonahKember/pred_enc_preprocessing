@@ -7,7 +7,7 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 ## Structure
 ```
 ├── data 
-│   ├── dataframes             <- Dataframes (HDF-5 files) with single-trial info and ROI time-series.
+│   ├── dataframes             <- Dataframes (written to .csv) with single-trial info and ROI time-series.
 │   ├── external               <- Third-party data required for processing.
 │   ├── interim                <- Intermediate data created during processing.
 │   ├── processed              <- Cleaned *-raw.fif and *-epo.fif instances for each EEG session (MNE-python Raw and Epochs objects).
@@ -139,7 +139,7 @@ This pipeline is set up to run on computer clusters scheduled with [slurm](https
 	This epochs the raw data and returns an instance of a MNE-python [epochs](https://mne.tools/stable/generated/mne.Epochs.html) object.
 
 	`preprocess_dataframe(subject, session)` \
-	This extracts the single trial source-localized time-series for each ROI in the left 'inferior_frontal' and left 'medial_temporal' cortices of the [HCP_MMP1.0](https://www.nature.com/articles/nature18933) atlas. It then writes the ROI time-series (along with single-trial information) to a custom file (Hierarchical Data Format, Version 5) to `/data/dataframes/f'{subject}.h5'`.
+	This extracts the single trial source-localized time-series for each ROI in the left 'inferior_frontal' and left 'medial_temporal' cortices of the [HCP_MMP1.0](https://www.nature.com/articles/nature18933) atlas. It then writes the ROI time-series (along with single-trial information) to .csv `/data/dataframes/f'{subject}.csv'`.
 
 3. The `utils.py` file within the preprocessing module contains a set of useful low-level functions. 
 

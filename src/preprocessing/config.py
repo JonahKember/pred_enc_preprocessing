@@ -16,7 +16,7 @@ job_params = {
     'hours':00,
     'minutes':2,
     'mem_per_cpu':'1G',
-    'n_jobs':1000
+    'n_jobs':-1
 }
 
 # Note 'raw': (15 min, 16G), 'epochs': (10 min, 2G), 'dataframe': (2 min, 1G).
