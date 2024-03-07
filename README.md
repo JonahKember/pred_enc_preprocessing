@@ -57,7 +57,7 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 	pip install -r requirements.txt
 	```
 
-3. Run the shell script `00_download_data.sh`, which downloads the raw BIDS-formatted data from OpenNeurom as well as miscellaenous external data required for the pipeline.
+3. Run the shell script `00_download_data.sh`, which downloads the raw BIDS-formatted data from OpenNeuro as well as miscellaneous external data required for the pipeline.
 	```shell
 	bash src/00_download_data.sh
 	```
@@ -70,11 +70,16 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 	python src/01_run_pipeline.py --create --run
 	```
 	**Arguments** \
-	`--create`: Writes SBATCH scripts for each EEG session to `/jobs` (note: ~2500 jobs created for each preprocessing stage). \
-	`--run`: Submit N jobs (specified in **job_params**) to the scheduler. SLURM has job limits (i.e., 1000), so this needs to be done in chunks. \
-	`--report`: Create `results/report.csv` with preprocessing information for each session (number of trials rejected, etc.).
+	`--create`: Write SBATCH scripts for each EEG session to `/jobs`. \
+	`--run`: Submit *N* jobs (*N* specified in **job_params**) to the scheduler. \
+	`--report`: Create `results/report.csv` with preprocessing information for each session.
+
 	
-	Each script applies a distinct processing stage (named: 'raw', 'epochs', and 'dataframe') to a single EEG session. SBATCH scripts are written to `/jobs`,and are formatted as: `f'sub-{subject}_ses-{session}_{stage}'`. The output of these jobs is written to `/slurm/output/` if sucessful, and `/slurm/error/` if unsucessful. The pipeline is run in three seprate stages to help conserve computational resources, as each stage has different RAM requirements.
+	- Each script applies a distinct processing stage (named: 'raw', 'epochs', and 'dataframe') to a single EEG session.
+	- SBATCH scripts are written to `/jobs`,and are formatted as: `f'sub-{subject}_ses-{session}_{stage}'`.
+	- Job outputs are written to `/slurm/output/` if sucessful, and `/slurm/error/` if unsucessful.
+	- The pipeline is run in three separate stages to help conserve computational resources, as each stage has different RAM requirements.
+	- ~2500 jobs are created for each preprocessing stage. SLURM has job limits (i.e., 1000), so this needs to be done in chunks.
 	
 	The amount of memory and time requested for each job is specified in the dictionary `job_params`, found in the config file of the preprocessing module: **`src/preprocessing/config.py`**
 	```python
@@ -134,7 +139,7 @@ Preprocessing and source-localization of the high-density electroencephalogram (
 
 3. The `utils.py` file within the preprocessing module contains a set of useful low-level functions. 
 
-## Overview 
+## Project overview 
 
 ### Background
 Specific patterns of electrical acivity are observed within areas of the left inferior-frontal and left medial-temporal cortices in the few seconds after the visual presentation of words. These electrical currents promote verbal memory encoding: (1) their time-series can be used to predict whether words will be subsequently recalled, and (2) their experimental manipulation (via closed-loop stimulation) can be used to enhance the probability of subsequent word recall.
