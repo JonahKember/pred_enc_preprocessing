@@ -4,28 +4,14 @@
 
 Preprocessing and source-localization of the high-density electroencephalogram (EEG) data from the [Penn Electrophysiology of Encoding and Retrieval Study](https://openneuro.org/datasets/ds004395/versions/2.0.0), a large-scale open dataset (7,000+ 90 minute sessions across 300+ subjects) focused on verbal memory encoding.
 
-## Overview 
-
-### Background
-Specific patterns of electrical acivity are observed within areas of the left inferior-frontal and left medial-temporal cortices in the few seconds after the visual presentation of words. These electrical currents promote verbal memory encoding: (1) their time-series can be used to predict whether words will be subsequently recalled, and (2) their experimental manipulation (via closed-loop stimulation) can be used to enhance the probability of subsequent word recall.
-
-### Problem
-Verbal memory (the ability to recall previously encountered words) decreases considerably in older adults (i.e., aged 60+). It is unclear how degeneration of the neural mechanisms which underly verbal memory encoding contribute to these deficits.
-
-### Solution
-To address this problem, we:
-1. Identify features of the electrical currents generated in left inferior-frontal and medial-temporal cortices that are predictive of verbal memory encoding (i.e., discriminate subsequently remembered from forgotten words) using both a data-driven approach (focused on massive feature extraction) and theory-driven approach (focused on dynamic shifts in the periodic and aperiodic components of the power spectral density).
-2. Test whether these features reliably differ in older adults (aged 60+).
-
-
 ## Structure
 ```
 ├── data 
-│   ├── dataframes             <- Dataframes (HDF-5 files) containing single-trial ROI time-series and trial info.
+│   ├── dataframes             <- Dataframes (HDF-5 files) with single-trial ROI time-series and accmompanying info.
 │   ├── external               <- Third-party data required for processing.
 │   ├── interim                <- Intermediate data created during processing.
 │   ├── processed              <- Cleaned *-raw.fif and *-epo.fif data for each EEG session (MNE-python Raw and Epochs objects).
-│   └── raw                    <- Raw BIDS-formatted data from OpenNeuro. 
+│   └── raw                    <- Raw BIDS-formatted data from OpenNeuro.
 │
 ├── results                    <- Preprocessing reports.
 │
@@ -40,8 +26,8 @@ To address this problem, we:
 │   │  ├── preprocess.py       <- High-level preprocessing functions.
 │   │  └── utils.py            <- Low-level functions.
 │   │
-│   ├── 00_download_data.sh    <- Download raw BIDS data from OpenNeuro.
-│   ├── 01_run_pipeline.py     <- Run the pipeline for each EEG session.
+│   ├── 00_download_data.sh    <- Shell script to download data (raw BIDS-formatted data and thhird-part data).
+│   ├── 01_run_pipeline.py     <- Python script to run the pipeline for each EEG session.
 │   └── pipeline.py            <- Preprocessing pipeline.
 │
 ├── .env                       <- Environment variables.
@@ -147,3 +133,16 @@ To address this problem, we:
 	This extracts the single trial source-localized time-series for each ROI in the left 'inferior_frontal' and left 'medial_temporal' cortices of the [HCP_MMP1.0](https://www.nature.com/articles/nature18933) atlas. It then writes the ROI time-series (along with single-trial information) and saves it into a custom file (Hierarchical Data Format, Version 5) formatted as `f'{subject}.h5'`.
 
 3. The `utils.py` file within the preprocessing module contains a set of useful low-level functions. 
+
+## Overview 
+
+### Background
+Specific patterns of electrical acivity are observed within areas of the left inferior-frontal and left medial-temporal cortices in the few seconds after the visual presentation of words. These electrical currents promote verbal memory encoding: (1) their time-series can be used to predict whether words will be subsequently recalled, and (2) their experimental manipulation (via closed-loop stimulation) can be used to enhance the probability of subsequent word recall.
+
+### Problem
+Verbal memory (the ability to recall previously encountered words) decreases considerably in older adults (i.e., aged 60+). It is unclear how degeneration of the neural mechanisms which underly verbal memory encoding contribute to these deficits.
+
+### Solution
+To address this problem, we:
+1. Identify features of the electrical currents generated in left inferior-frontal and medial-temporal cortices that are predictive of verbal memory encoding (i.e., discriminate subsequently remembered from forgotten words) using both a data-driven approach (focused on massive feature extraction) and theory-driven approach (focused on dynamic shifts in the periodic and aperiodic components of the power spectral density).
+2. Test whether these features reliably differ in older adults (aged 60+).

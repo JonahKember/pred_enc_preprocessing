@@ -14,9 +14,9 @@ params = {
 job_params = {
     'stage':'epochs',
     'hours':00,
-    'minutes':10,
+    'minutes':20,
     'mem_per_cpu':'2G',
-    'n_jobs':1000
+    'n_jobs':-1
 }
 
 # Note 'raw': (15 min, 16G), 'epochs': (10 min, 2G), 'dataframe': (10 min, 1G).
