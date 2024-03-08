@@ -89,18 +89,18 @@ This pipeline is set up to run on computer clusters scheduled with [slurm](https
 		'n_jobs':500
 	}
 	```	
-	- Each job applies a distinct processing stage ('raw', 'epochs', and 'dataframe') to a single EEG session.
-	- SBATCH scripts are written to `/jobs`,and are formatted as: `f'sub-{subject}_ses-{session}_{stage}'`.
-	- Job outputs are written to `/slurm/output/` if sucessful, and `/slurm/error/` if unsucessful.
-	- The pipeline is run in three separate stages to help conserve computational resources, as each stage has different RAM requirements.
-	- ~2,500 jobs are created for each preprocessing stage. SLURM has job limits (i.e., 1,000), so this needs to be done in chunks.
-
 	**Parameters** \
 	`stage (str):` preprocessing stage to run (one of: 'raw', 'epochs', 'dataframe'). \
 	`hours (int):` number of hours to request for job. \
 	`minutes (int):` number of minutes to request for job. \
 	`mem_per_cpu (str):` amount of RAM to request for job. \
 	`n_jobs (int):` number of jobs to submit to the scheduler at once (`-1`: run all jobs).
+
+	- Each job applies a distinct processing stage ('raw', 'epochs', and 'dataframe') to a single EEG session.
+	- SBATCH scripts are written to `/jobs`,and are formatted as: `f'sub-{subject}_ses-{session}_{stage}'`.
+	- Job outputs are written to `/slurm/output/` if sucessful, and `/slurm/error/` if unsucessful.
+	- The pipeline is run in three separate stages to help conserve computational resources, as each stage has different RAM requirements.
+	- ~2,500 jobs are created for each preprocessing stage. SLURM has job limits (i.e., 1,000), so this needs to be done in chunks.
 
 2. The parameters for the preprocessing pipeline are specifed in the python dictionary **params**, found in the config file of the preprocessing module: **`src/preprocessing/config.py`**:
 
