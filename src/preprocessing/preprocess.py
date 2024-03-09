@@ -2,14 +2,13 @@ import os
 import mne
 import numpy as np
 import pandas as pd
+import utils
 
 from dotenv import load_dotenv
 from pyprep import NoisyChannels
 from autoreject import AutoReject
 from mne_bids import BIDSPath, read_raw_bids
-
-from preprocessing import utils
-from preprocessing.config import params
+from config import params
 
 load_dotenv()
 project_dir = os.getenv('project_dir')

@@ -69,7 +69,7 @@ This pipeline is set up to run on computer clusters scheduled with [slurm](https
 
 ### Preprocessing
 
-1. The full preprocessing pipeline is implemented through the script `src/01_run_pipeline.py`, which can be run through the terminal:
+1. The full preprocessing pipeline is implemented through the script `src/preprocessing/01_run_pipeline.py`, which can be run through the terminal:
 	```shell
 	# Create and run job scripts.
 	python src/01_run_pipeline.py --create --run
@@ -128,7 +128,7 @@ This pipeline is set up to run on computer clusters scheduled with [slurm](https
 
 ### How it works
 
-1. The job scripts created through `src/01_run_pipeline.py` run the pipeline `src/pipeline.py` with the appropriate arguments specified.
+1. The job scripts created through `src/preprocessing/01_run_pipeline.py` run the pipeline `src/preprocessing/pipeline.py` with the appropriate arguments specified.
 
 2. The `preprocess.py` file found within the preprocessing module includes a specific high-level function for each preprocessing stage:
 

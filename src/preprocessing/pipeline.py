@@ -1,5 +1,5 @@
 import argparse
-from preprocessing import preprocess
+import preprocess
 
 parser = argparse.ArgumentParser()
 for arg in ['--subject', '--session', '--stage']:

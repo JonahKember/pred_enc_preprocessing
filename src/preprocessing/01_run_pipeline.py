@@ -1,12 +1,11 @@
 import os
+import utils
 import argparse
 import subprocess
 
 from glob import glob
 from dotenv import load_dotenv
-
-from preprocessing import utils
-from preprocessing.config import job_params
+from config import job_params
 
 load_dotenv()
 project_dir = os.getenv('project_dir')

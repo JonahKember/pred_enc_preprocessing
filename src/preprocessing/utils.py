@@ -7,8 +7,7 @@ import numpy as np
 import pandas as pd
 
 from dotenv import load_dotenv
-
-from preprocessing.config import params
+from config import params
 
 load_dotenv()
 project_dir = os.getenv('project_dir')
@@ -431,7 +430,7 @@ def create_sbatch(subject, session, stage, hours, minutes, mem_per_cpu):
         source ENV/bin/activate
 
         # Preprocess data.
-        python {project_dir}/src/pipeline.py --subject {subject} --session {session} --stage {stage}
+        python {project_dir}/src/preprocessing/pipeline.py --subject {subject} --session {session} --stage {stage}
 
         # If pipeline fails, copy output to error directory.
         if [ $? -ne 0 ]; then
