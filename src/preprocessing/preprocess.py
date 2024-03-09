@@ -1,7 +1,6 @@
 import os
 import mne
 import numpy as np
-import pandas as pd
 import utils
 
 from dotenv import load_dotenv
