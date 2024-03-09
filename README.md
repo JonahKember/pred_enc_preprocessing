@@ -72,7 +72,7 @@ This pipeline is set up to run on computer clusters scheduled with [slurm](https
 1. The full preprocessing pipeline is implemented through the script `src/preprocessing/01_run_pipeline.py`, which can be run through the terminal:
 	```shell
 	# Create and run job scripts.
-	python src/01_run_pipeline.py --create --run
+	python src/preprocessing/01_run_pipeline.py --create --run
 	```
 	**Arguments** \
 	`--create`: Write SBATCH scripts for each EEG session to `/jobs`. \
